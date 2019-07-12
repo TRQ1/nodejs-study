@@ -11,6 +11,11 @@ import routes from "./routes";
 const app = express();
 
 /**
+ * Setting pug
+ */
+app.set("view engine", "pug");
+
+/**
  * Setting Middleware
  */
 app.use(cookieParser());
