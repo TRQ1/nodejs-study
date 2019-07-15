@@ -4,7 +4,7 @@ export const videos = [
         title: 'Test video',
         description: 'This is somthing',
         views: 24,
-        videoFile: "https://archive.org/details/BigBuckBunny_124",
+        videoFile: "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
         creator: {
             id: 11112,
             users: "Q",
@@ -17,7 +17,7 @@ export const videos = [
         title: 'Support Video',
         description: 'What a',
         views: 24,
-        videoFile: "https://archive.org/details/BigBuckBunny_124",
+        videoFile: "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
         creator: {
             id: 11113,
             users: "T",
@@ -30,7 +30,7 @@ export const videos = [
         title: 'Edit Vidoe',
         description: 'Emergency',
         views: 40,
-        videoFile: "https://archive.org/details/BigBuckBunny_124",
+        videoFile: "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
         creator: {
             id: 11114,
             users: "O",
