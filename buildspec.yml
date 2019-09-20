@@ -26,16 +26,16 @@ phases:
     commands:
       - echo Build started on `data`
       - echo Building the Docker images
-      - docker build -t $ECR_REGISTRY_URL:latest .
-      - docker tag $ECR_REGISTRY_URL:latest $ECR_REGISTRY_URL:$IMAGE_TAG
+      - docker build -t $ECR_REGISTRY_URL/nodejs-test:latest .
+      - docker tag $ECR_REGISTRY_URL:latest $ECR_REGISTRY_URL/nodejs-test:$IMAGE_TAG
 
   post_build:
     commands:
       - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $ECR_REGISTRY_URL:latest
-      - docker push $ECR_REGISTRY_URL:$IMAGE_TAG
+      - docker push $ECR_REGISTRY_URL/nodejs-test:latest
+      - docker push $ECR_REGISTRY_URL/nodejs-test:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"Website","imageUri":"%s"}]' $ECR_REGISTRY_URL:$IMAGE_TAG > imagedefinitions.json
 artifacts:
