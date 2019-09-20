@@ -10,7 +10,7 @@ phases:
   pre_build:
     commands:
       - echo Fetching ECR Login
-      - ECR_LOGIN=`aws ecr get-login --region --no-include-email`
+      - ECR_LOGIN=`aws ecr get-login  --no-include-email`
       - echo Logging in to Amazon ECR...
       - $ECR_LOGIN
       - IMAGE_TAG=`echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7`
