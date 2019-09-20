@@ -21,22 +21,22 @@ phases:
       - PASSWORD=`echo $ECR_LOGIN | cut -d' ' -f6`
       - echo $PASSWORD
       - ECR_REGISTRY_URL=`echo $ECR_LOGIN | cut -d' ' -f7 | sed "s/https:\/\///"`
-      - echo $ECR_REPOSITORY_URI
+      - echo $ECR_REGISTRY_URL
   build:
     commands:
       - echo Build started on `data`
       - echo Building the Docker images
-      - docker build -t $ECR_REPOSITORY_URI:latest .
-      - docker tag $ECR_REPOSITORY_URI:latest $ECR_REPOSITORY_URI:$IMAGE_TAG
+      - docker build -t $ECR_REGISTRY_URL:latest .
+      - docker tag $ECR_REGISTRY_URL:latest $ECR_REGISTRY_URL:$IMAGE_TAG
 
   post_build:
     commands:
       - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi"
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $ECR_REPOSITORY_URI:latest
-      - docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
+      - docker push $ECR_REGISTRY_URL:latest
+      - docker push $ECR_REGISTRY_URL:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"Website","imageUri":"%s"}]' $ECR_REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - printf '[{"name":"Website","imageUri":"%s"}]' $ECR_REGISTRY_URL:$IMAGE_TAG > imagedefinitions.json
 artifacts:
   files: imagedefinitions.json
