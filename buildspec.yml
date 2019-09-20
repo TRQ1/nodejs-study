@@ -10,7 +10,7 @@ phases:
   pre_build:
     commands:
       - echo Fetching ECR Login
-      - ECR_LOGIN=`aws ecr get-login  --no-include-email`
+      - ECR_LOGIN=`aws ecr get-login  --region $AWS_DEFAULT_REGION --no-include-email`
       - echo Logging in to Amazon ECR...
       - $ECR_LOGIN
       - IMAGE_TAG=`echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7`
@@ -19,10 +19,12 @@ phases:
       - mv ./klar-2.1.1-linux-amd64 ./klar
       - chmod +x ./klar
       - PASSWORD=`echo $ECR_LOGIN | cut -d' ' -f6`
+      - ECR_REGISTRY=`echo $ECR_LOGIN | cut -d' ' -f7 | sed "s/https:\/\///"`
   build:
     commands:
       - echo Build started on `data`
       - echo Building the Docker images
+      - echo $ECR_REPOSITORY_URI
       - docker build -t $ECR_REPOSITORY_URI:latest .
       - docker tag $ECR_REPOSITORY_URI:latest $ECR_REPOSITORY_URI:$IMAGE_TAG
 
@@ -33,8 +35,6 @@ phases:
       - echo Pushing the Docker images...
       - docker push $ECR_REPOSITORY_URI:latest
       - docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
-      - echo Running Clair scan on the Docker Image
-      - DOCKER_USER=AWS DOCKER_PASSWORD=${PASSWORD} CLAIR_ADDR=$CLAIR_URL CLAIR_OUTPUT=High ./klar $ECR_REPOSITORY_URI
       - echo Writing image definitions file...
       - printf '[{"name":"Website","imageUri":"%s"}]' $ECR_REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 artifacts:
