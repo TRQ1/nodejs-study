@@ -27,7 +27,7 @@ phases:
       - echo Build started on `data`
       - echo Building the Docker images
       - docker build -t $ECR_REGISTRY_URL/nodejs-test:latest .
-      - docker tag $ECR_REGISTRY_URL:latest $ECR_REGISTRY_URL/nodejs-test:$IMAGE_TAG
+      - docker tag $ECR_REGISTRY_URL/nodejs-test:latest $ECR_REGISTRY_URL/nodejs-test:$IMAGE_TAG
 
   post_build:
     commands:
