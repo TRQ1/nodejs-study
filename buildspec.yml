@@ -10,6 +10,7 @@ phases:
   pre_build:
     commands:
       - echo Fetching ECR Logging
+      - echo ....
       - ECR_LOGIN=$(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - echo Loggin in to Amazon ECR
       - $ECR_LOGIN
