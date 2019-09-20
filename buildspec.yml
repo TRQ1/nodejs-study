@@ -19,12 +19,13 @@ phases:
       - mv ./klar-2.1.1-linux-amd64 ./klar
       - chmod +x ./klar
       - PASSWORD=`echo $ECR_LOGIN | cut -d' ' -f6`
-      - ECR_REGISTRY=`echo $ECR_LOGIN | cut -d' ' -f7 | sed "s/https:\/\///"`
+      - echo $PASSWORD
+      - ECR_REGISTRY_URL=`echo $ECR_LOGIN | cut -d' ' -f7 | sed "s/https:\/\///"`
+      - echo $ECR_REPOSITORY_URI
   build:
     commands:
       - echo Build started on `data`
       - echo Building the Docker images
-      - echo $ECR_REPOSITORY_URI
       - docker build -t $ECR_REPOSITORY_URI:latest .
       - docker tag $ECR_REPOSITORY_URI:latest $ECR_REPOSITORY_URI:$IMAGE_TAG
 
